@@ -22,5 +22,27 @@
     * POST "/board/${postId}/commemt" // 댓글 등록
     * PATCH "/board/${postId}/commemt/${commentId}" // 댓글 수정
 
+# 패키지
+<!-- 프레임워크 -->
+* express
+    * express-session
+<!-- 로그인 -->
+* passport
+    * passport-local
+    * passport-kakao
+    * passport-facebook
+    * passport-github
+<!-- 디비 -->
+* sequelize
+    * sequelize-cli
+* mysql2
+<!-- 기타 -->
+* fs
+* path
+* morgan
+* multer
+* cookie-parser
+* dotenv
+* nodemon
 
 
