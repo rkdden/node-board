@@ -45,4 +45,16 @@
 * dotenv
 * nodemon
 
+# 회원가입
+* 이메일 : email
+* 이름 : name
+* 비밀번호 : password
+* 로그인타입 : provider 
+    * 기본값: local
+* snsId : snsId
+* createdAt
+* updatedAt
+* deletedAt
+
+
 
