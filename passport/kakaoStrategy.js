@@ -15,6 +15,7 @@ module.exports = () => {
                 done(null, exUser);
             } else { // 카카오로 가입된 정보가 없을때
                 const newUser = await User.create({
+                    email: profile._json.kakao_account.email,
                     name: profile.displayName,
                     snsId: profile.id,
                     provider: 'kakao',
