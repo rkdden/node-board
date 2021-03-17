@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
 const dotenv = require('dotenv');
-// const passport = require('passport');
+const passport = require('passport');
 
 dotenv.config();
 // 라우터
@@ -14,11 +14,11 @@ const authRouter = require('./routes/auth');
 const { sequelize } = require('./models');
 
 // 패스포트 환경설정
-// const passportConfig = require('./passport');
+const passportConfig = require('./passport');
 
 const app = express();
 // 패스포트 설정
-// passportConfig();
+passportConfig();
 // 포트번호
 app.set('port', process.env.PORT || 3000);
 // 시퀄라이즈 설정
@@ -52,8 +52,8 @@ app.use(session({
     },
 }));
 // 패스포트 설정
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // 라우터 사용
 app.use('/', indexRouter);
