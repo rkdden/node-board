@@ -27,6 +27,7 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
     }
 });
 
+
 // 로컬 로그인
 router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (authError, user, info) => {
@@ -60,9 +61,18 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
 // 깃허브 로그인
 router.get('/github', passport.authenticate('github'));
 router.get('/github/callback', passport.authenticate('github', { 
-        failureRedirect: '/' 
-    }), (req, res) => {
-        res.redirect('/');
+    failureRedirect: '/' 
+}), (req, res) => {
+    res.redirect('/');
+});
+
+// 페이스북 로그인
+router.get('/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email']} ));
+
+router.get('/facebook/callback', passport.authenticate('facebook', {
+    failureRedirect: '/',
+}), (req, res) => {
+    res.redirect('/')
 });
 
 module.exports = router;
