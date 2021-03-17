@@ -15,4 +15,8 @@ router.get('/write', (req, res) => {
     res.render('write');
 });
 
+router.post('/login', (req, res) => {
+    res.render('login');
+});
+
 module.exports = router;
