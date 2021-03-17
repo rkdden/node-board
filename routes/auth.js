@@ -27,4 +27,13 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
     }
 });
 
+
+router.get('/kakao', passport.authenticate('kakao'));
+
+router.get('/kakao/callback', passport.authenticate('kakao', {
+    failureRedirect: '/',
+}), (req, res) => {
+    res.redirect('/')
+});
+
 module.exports = router;
