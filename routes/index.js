@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
 router.get('/login', (req, res) => {
     res.render('login');
 });
+
 router.get('/write', (req, res) => {
     res.render('write');
 });
