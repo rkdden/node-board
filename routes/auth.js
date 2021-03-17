@@ -28,14 +28,7 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
 });
 
 
-router.get('/kakao', passport.authenticate('kakao'));
-
-router.get('/kakao/callback', passport.authenticate('kakao', {
-    failureRedirect: '/',
-}), (req, res) => {
-    res.redirect('/')
-});
-
+// 로컬 로그인
 router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (authError, user, info) => {
         if (authError) {
@@ -54,6 +47,32 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
             return res.redirect('/');
         });
     })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
+});
+
+// 카카오 로그인
+router.get('/kakao', passport.authenticate('kakao'));
+
+router.get('/kakao/callback', passport.authenticate('kakao', {
+    failureRedirect: '/',
+}), (req, res) => {
+    res.redirect('/')
+});
+
+// 깃허브 로그인
+router.get('/github', passport.authenticate('github'));
+router.get('/github/callback', passport.authenticate('github', { 
+    failureRedirect: '/' 
+}), (req, res) => {
+    res.redirect('/');
+});
+
+// 페이스북 로그인
+router.get('/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email']} ));
+
+router.get('/facebook/callback', passport.authenticate('facebook', {
+    failureRedirect: '/',
+}), (req, res) => {
+    res.redirect('/')
 });
 
 module.exports = router;

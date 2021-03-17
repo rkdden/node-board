@@ -6,13 +6,19 @@
     * GET "/" index.html  // 로그인(메인) 페이지
     * 로그인
         * POST "/auth/login" // 로그인 처리
-        * GET "/auth/kakao"  // 카카오 로그인
-        * GET "/auth/kakao/callback" // 카카오 로그인 콜백
-
+        * 카카오
+            * GET "/auth/kakao"  // 카카오 로그인
+            * GET "/auth/kakao/callback" // 카카오 로그인 콜백
+        * 페이스북
+            * GET "/auth/facebook"  // 페이스북 로그인
+            * GET "/auth/facebook/callback"  // 페이스북 로그인 콜백
+        * 깃허브
+            * GET "/auth/github"  // 깃허브 로그인
+            * GET "/auth/github/callback"  // 깃허브 로그인 콜백
 
 * 회원가입
     * GET "/regist" regist.html // 회원가입 페이지
-    * POST "/auth/regist" // 회원가입 처리
+    * POST "/auth/regist" // 로컬 회원가입 처리
 * 게시글 목록
     * GET "/board/${condition}" board.html // 컨디션에 따른 게시글 목록 (최신순, 댓글순, * 추천순, 조회순)
 * 글쓰기
@@ -59,5 +65,3 @@
 * snsId : snsId
 * createdAt
 * updatedAt
-
-

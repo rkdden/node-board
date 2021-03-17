@@ -1,7 +1,10 @@
 const passport = require('passport');
 const local = require('./localStrategy');
 const kakao = require('./kakaoStrategy');
+const github = require('./githubStrategy');
+const facebook = require('./facebookStrategy');
 const User = require('../models/user');
+
 
 module.exports = () => {
     passport.serializeUser((user, done) => {
@@ -19,4 +22,6 @@ module.exports = () => {
 
     local();
     kakao();
+    github();
+    facebook();
 };
