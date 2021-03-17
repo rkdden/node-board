@@ -9,13 +9,16 @@ const dotenv = require('dotenv');
 dotenv.config();
 // 라우터
 const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
+//시퀄라이즈
+const { sequelize } = require('./models');
 
 // 패스포트 환경설정
-const passportConfig = require('./passport');
+// const passportConfig = require('./passport');
 
 const app = express();
 // 패스포트 설정
-passportConfig();
+// passportConfig();
 // 포트번호
 app.set('port', process.env.PORT || 3000);
 // 시퀄라이즈 설정
@@ -49,11 +52,12 @@ app.use(session({
     },
 }));
 // 패스포트 설정
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // 라우터 사용
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 
 // 404처리 미들웨어
 app.use((req, res, next) => {
@@ -68,7 +72,7 @@ app.use((err, req, res, next) => {
     // res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
     // res.status(err.status || 500);
     // res.render('error');
-    console.log(error);
+    console.log(err);
 });
 
 app.listen(app.get('port'), () => {

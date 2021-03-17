@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require('../models/user');
 
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../views/index.html'));
+    // res.sendFile(path.join(__dirname, '../views/index.html'));
     res.send('메인페이지');
 });
 
