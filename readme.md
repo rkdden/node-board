@@ -8,7 +8,7 @@
         * POST "/auth/login" // 로그인 처리
         * GET "/auth/kakao"  // 카카오 로그인
         * GET "/auth/kakao/callback" // 카카오 로그인 콜백
-        
+
 
 * 회원가입
     * GET "/regist" regist.html // 회원가입 페이지
@@ -59,7 +59,5 @@
 * snsId : snsId
 * createdAt
 * updatedAt
-* deletedAt
-
 
 
