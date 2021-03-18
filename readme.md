@@ -15,10 +15,10 @@
         * 깃허브
             * GET "/auth/github"  // 깃허브 로그인
             * GET "/auth/github/callback"  // 깃허브 로그인 콜백
-
 * 회원가입
     * GET "/regist" regist.html // 회원가입 페이지
     * POST "/auth/regist" // 로컬 회원가입 처리
+--------------------------------------------------------------- 03/17
 * 게시글 목록
     * GET "/board/${condition}" board.html // 컨디션에 따른 게시글 목록 (최신순, 댓글순, * 추천순, 조회순)
 * 글쓰기
@@ -57,11 +57,46 @@
 * bcrypt
 
 # 회원가입
+## 테이블 : users, 모델: User
+* 회원번호 : id
 * 이메일 : email
 * 이름 : name
 * 비밀번호 : password
 * 로그인타입 : provider 
     * 기본값: local
 * snsId : snsId
-* createdAt
-* updatedAt
+* 가입일 : createdAt
+* 수정일 : updatedAt
+
+# 게시글
+## 테이블 : posts, 모델: Post
+* 게시글번호 : id
+* 제목 : title
+* 내용 : content
+* 작성자 : UserId
+* 작성일 : createdAt
+* 수정일 : updateAt
+* 조회수 : view
+
+# 댓글
+## 테이블 : comments, 모델: Comment
+* 게시글 번호: PostId
+* 작성자 : UserId
+* 댓글 : comment
+* 작성일 : createdAt
+* 수정일 : updateAt
+
+# 추천
+## 테이블 : recommand
+* 추천순 : recommand    // 관계로 자동생성
+
+# DATEBASE 관계
+
+* User   Post       =   1    :  N
+* User   Comment    =   1    :  N
+* User   Recommand  =   1    :  N
+* Post   Comment    =   1    :  N
+* Post   Recommand  =   1    :  N
+
+
+
