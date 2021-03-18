@@ -36,6 +36,8 @@ module.exports = class Post extends Sequelize.Model {
     }
     
     static associate(db) {
-        
+        db.Post.belongsTo(db.User); // Post테이블 N : 1 User테이블
+        db.Post.hasMany(db.Comment); // Post테이블 1 : N Comment테이블
+        db.Post.belongsToMany(db.User, { through: 'Recommand'}); // Post테이블 N : M User테이블
     }
 };

@@ -58,7 +58,7 @@
 
 # 회원가입
 ## 테이블 : users, 모델: User
-* 회원번호 : id
+* 회원번호 : id  = PK
 * 이메일 : email
 * 이름 : name
 * 비밀번호 : password
@@ -70,33 +70,35 @@
 
 # 게시글
 ## 테이블 : posts, 모델: Post
-* 게시글번호 : id
+* 게시글번호 : id  = PK
 * 제목 : title
 * 내용 : content
-* 작성자 : UserId
+* 조회수 : view
 * 작성일 : createdAt
 * 수정일 : updateAt
-* 조회수 : view
+* 작성자 : UserId = FK
 
 # 댓글
 ## 테이블 : comments, 모델: Comment
-* 게시글 번호: PostId
-* 작성자 : UserId
+* 댓글번호 : id  = PK
 * 댓글 : comment
 * 작성일 : createdAt
 * 수정일 : updateAt
+* 작성자 : UserId = FK
+* 게시글 번호: PostId = FK
 
 # 추천
 ## 테이블 : recommand
-* 추천순 : recommand    // 관계로 자동생성
+* 추천회원번호 : UserId
+* 추천게시글번호 : PostId
 
 # DATEBASE 관계
 
-* User   Post       =   1    :  N
-* User   Comment    =   1    :  N
-* User   Recommand  =   1    :  N
-* Post   Comment    =   1    :  N
-* Post   Recommand  =   1    :  N
+* User   Post       =   1   :   N
+* User   Comment    =   1   :   N
+* Post   Comment    =   1   :   N
+* Post   Recommand  =   1   :   N
+* Post   User       =   N   :   M  ( through: 'Recommand' ) 
 
 
 
