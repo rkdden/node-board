@@ -16,7 +16,8 @@ router.post('/', async (req, res, next) => {
             title,
             content,
         });
-        res.redirect('/board');
+        // res.redirect('board');
+        res.send('회원가입 완료');
     } catch (error) {
         console.error(error);
         next(error);
