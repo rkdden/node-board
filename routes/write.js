@@ -10,14 +10,15 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const {UserId, title, content} = req.body;
+        const UserId = req.user.id;
+        const { title, content} = req.body;
         await Post.create({
             UserId,
             title,
             content,
         });
         // res.redirect('board');
-        res.send('회원가입 완료');
+        res.send('게시글 작성 완료');
     } catch (error) {
         console.error(error);
         next(error);

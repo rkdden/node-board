@@ -60,8 +60,8 @@ app.use(passport.session());
 // 라우터 사용
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/write', writeRouter);
 app.use('/board', boardRouter);
+app.use('/write', writeRouter);
 
 // 404처리 미들웨어
 app.use((req, res, next) => {

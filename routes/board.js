@@ -1,6 +1,6 @@
 const express = require('express');
 const {User, Post, Comment, sequelize} = require('../models');
-
+const passport = require('passport');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -11,7 +11,23 @@ router.get('/', async (req, res, next) => {
          // 최신순
         if (query.comment) {
             // 댓글순
-            console.log('comment');
+            posts = await Post.findAll({
+                // 게시글 번호, 제목, 댓글개수, 조회수
+                attributes:[
+                    'id',
+                    'title',
+                    'view',
+                    'createdAt',
+                    'UserId',
+                ],
+                include: {
+                    model: Comment,
+                    attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'commentCount'],]
+                },
+                // 댓글순 및 댓글 갯수가 같다면 내림차순
+                order: [[sequelize.literal('`Comments.commentCount`'), 'DESC'], ['createdAt', 'DESC']],
+                group: 'Post.id',
+            });
         }else if(query.recommend){
             // 추천순
             console.log('recommend');
@@ -31,8 +47,10 @@ router.get('/', async (req, res, next) => {
                 ],
                 include: {
                     model: Comment,
+                    attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'commentCount'],]
                 },
                 order: [['createdAt', 'DESC']],
+                group: 'Post.id'
             });
         }
         res.json({ posts, });
@@ -44,17 +62,19 @@ router.get('/', async (req, res, next) => {
 // POST "/board/${postId}/commemt" // 댓글 등록
 router.post('/:postId/comment', async (req, res, next) => {
     try {
-        const { postId } = req.params;
-        const { comment } = req.body;
-        console.log(postId, comment);
-        console.log(req.user);
-        // await Comment.create({
-        //     comment,
-        //     UserId,
-        //     PostId: postId,
-        // });
-        // res.redirect('board');
-        res.send('댓글등록 완료');
+        // const { postId } = req.params;
+        
+        console.log(req.user.id);
+        await Comment.create({
+            // 댓글
+            comment: req.body.comment,
+            // 세션 아이디
+            UserId: req.user.id,
+            // 게시글 번호
+            PostId: req.params.postId,
+        });
+        res.redirect('/board');
+        // 댓글작성 완료
     } catch (error) {
         console.error(error);
         next(error);
