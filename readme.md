@@ -20,12 +20,12 @@
     * POST "/auth/regist" // 로컬 회원가입 처리
 --------------------------------------------------------------- 03/17 완료
 * 게시글 목록
-    * GET "/board?querystring" board.html // 컨디션에 따른 게시글 목록 (최신순, 댓글순, * 추천순, 조회순)
+    * GET "/board?querystring" board.html // 컨디션에 따른 게시글 목록 (최신순, 댓글순, * 추천순, 조회순) **최신순, 댓글순 완료**
     * 게시글 번호, 제목, 조회수, 생성날자 작성자
 * 글쓰기 **------- 완료**
     * GET "/write" write.html // 게시글 작성 페이지
     * POST "/write" //게시글 작성 처리 
-* 게시글 상세ㅋ
+* 게시글 상세
     * GET "/board/${postId}" // 게시글아이디 상세보기
     * PATCH "/board/${postId}" // 게시글 수정
     * DELETE "/board/${postId}" // 게시글 삭제
