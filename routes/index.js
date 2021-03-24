@@ -3,8 +3,8 @@ const path = require('path');
 const router = express.Router();
 const User = require('../models/user');
 
+// 메인페이지
 router.get('/', (req, res) => {
-    // res.sendFile(path.join(__dirname, '../views/index.html'));
     res.send('메인페이지');
 });
 
@@ -16,13 +16,9 @@ router.post('/login', (req, res) => {
 router.get('/regist', (req, res) => {
     res.send('회원가입 페이지');
 });
-
-router.post('/login', (req, res) => {
-    res.render('login');
-});
-
+// 게시글 작성 페이지
 router.get('/write', (req, res) => {
-    res.render('write');
+    res.send('게시글 작성 페이지');
 });
 
 module.exports = router;

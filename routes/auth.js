@@ -44,7 +44,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
                 return next(loginError);
             }
             // 여기서 세션 쿠키를 브라우저로 보낸다.
-            return res.redirect('/');
+            return res.redirect('/board');
         });
     })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 });
@@ -55,7 +55,7 @@ router.get('/kakao', passport.authenticate('kakao'));
 router.get('/kakao/callback', passport.authenticate('kakao', {
     failureRedirect: '/',
 }), (req, res) => {
-    res.redirect('/')
+    res.redirect('/board')
 });
 
 // 깃허브 로그인
@@ -63,7 +63,7 @@ router.get('/github', passport.authenticate('github'));
 router.get('/github/callback', passport.authenticate('github', { 
     failureRedirect: '/' 
 }), (req, res) => {
-    res.redirect('/');
+    res.redirect('/board');
 });
 
 // 페이스북 로그인
@@ -72,7 +72,7 @@ router.get('/facebook', passport.authenticate('facebook', {scope: ['public_profi
 router.get('/facebook/callback', passport.authenticate('facebook', {
     failureRedirect: '/',
 }), (req, res) => {
-    res.redirect('/')
+    res.redirect('/board')
 });
 
 module.exports = router;
