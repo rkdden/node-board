@@ -26,12 +26,13 @@
     * GET "/write" write.html // 게시글 작성 페이지
     * POST "/write" //게시글 작성 처리 
 * 게시글 상세
-    * GET "/board/${postId}" // 게시글아이디 상세보기
+    * GET "/board/${postId}" // 게시글아이디 상세보기 **완료**
     * PATCH "/board/${postId}" // 게시글 수정
     * DELETE "/board/${postId}" // 게시글 삭제
-* 게시글 댓글
-    * POST "/board/${postId}/commemt" // 댓글 등록
-    * PATCH "/board/${postId}/commemt/${commentId}" // 댓글 수정
+* 게시글 댓글 **완료**
+    * POST "/board/${postId}/commemt" // 댓글 등록 
+    * PATCH "/board/${postId}/commemt // 댓글 수정
+    * DELETE "/board/${postId}/commemt // 댓글 삭제
 
 # 패키지
 <!-- 프레임워크 -->

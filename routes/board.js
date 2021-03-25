@@ -8,7 +8,6 @@ router.get('/', async (req, res, next) => {
     try{
         const query = req.query;
         let posts;
-         // 최신순
         if (query.comment) {
             // 댓글순
             posts = await Post.findAll({
@@ -62,6 +61,7 @@ router.get('/', async (req, res, next) => {
 // 게시글 조회
 // postId에 해당하는 게시글과 댓글 가져온 후
 // 댓글은 최신순으로
+// 3.25 나중에 추천 추가
 router.get('/:postId', async (req, res, next) => {
     try {
         const { postId } = req.params;
@@ -70,7 +70,7 @@ router.get('/:postId', async (req, res, next) => {
             where: { id: postId },
             include: {
                 model: Comment,
-                attributes: ['UserId', 'comment', 'createdAt'],
+                attributes: ['id', 'UserId', 'comment', 'createdAt'],
             },
             order: [[Comment, 'createdAt', 'DESC']],
         });
@@ -101,6 +101,73 @@ router.post('/:postId/comment', async (req, res, next) => {
         console.error(error);
         next(error);
     }
-})
+});
+
+// 댓글수정
+// comments.id 는 form 태그에서 hidden으로 보내준다.
+router.patch('/:postId/comment', async (req, res, next) => {
+    try {
+        // 게시글 번호
+        const { postId } = req.params;
+        // 댓글아이디, 댓글 내용
+        const { commentId, comment } = req.body;
+        // 세션userid
+        const userId = req.user.id;
+        // 댓글userId
+        const commentUserId = await Comment.findOne(
+            {attributes: ['UserId'],},
+            { where: {id: commentId}},
+        );
+        if (userId === commentUserId.UserId) {
+            await Comment.update(
+                { comment: comment, },
+                { where: {
+                    PostId: postId,
+                    UserId: userId,
+                    id : commentId,
+                }},
+            );
+            res.redirect(`/board/${req.params.postId}`)
+        }else{
+            res.send(`작성자와 일치하지 않습니다.`);
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
+// 댓글 삭제
+// comments.id 는 form 태그에서 hidden으로 보내준다.
+router.delete('/:postId/comment', async (req, res, next) => {
+    try {
+        // 게시글 번호
+        const { postId } = req.params;
+        // 댓글아이디
+        const { commentId } = req.body;
+        // 세션userid
+        const userId = req.user.id;
+        // 댓글userId
+        const commentUserId = await Comment.findOne(
+            {attributes: ['UserId'],},
+            { where: {id: commentId}},
+        );
+        if (userId === commentUserId.UserId) {
+            await Comment.destroy(
+                { where: {
+                    PostId: postId,
+                    UserId: userId,
+                    id : commentId,
+                }},
+            );
+            res.redirect(`/board/${req.params.postId}`)
+        }else{
+            res.send(`작성자와 일치하지 않습니다.`);
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
 
 module.exports = router;
