@@ -12,6 +12,7 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const boardRouter = require('./routes/board');
 const writeRouter = require('./routes/write');
+const boardRouter = require('./routes/board');
 //시퀄라이즈
 const { sequelize } = require('./models');
 

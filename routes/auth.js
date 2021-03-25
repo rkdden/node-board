@@ -1,13 +1,12 @@
 const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const User = require('../models/user');
 
 const router = express.Router();
 // 회원가입 기능
 // 로컬 회원가입
-router.post('/regist', isNotLoggedIn, async (req, res, next) => {
+router.post('/regist', async (req, res, next) => {
     const { email, name, password } = req.body;
     try {
         const exUser = await User.findOne({ where: { email } });
@@ -29,7 +28,7 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
 
 
 // 로컬 로그인
-router.post('/login', isNotLoggedIn, (req, res, next) => {
+router.post('/login', (req, res, next) => {
     passport.authenticate('local', (authError, user, info) => {
         if (authError) {
             console.error(authError);
