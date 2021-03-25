@@ -11,6 +11,7 @@ dotenv.config();
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const boardRouter = require('./routes/board');
+const writeRouter = require('./routes/write');
 //시퀄라이즈
 const { sequelize } = require('./models');
 
@@ -60,6 +61,7 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/board', boardRouter);
+app.use('/write', writeRouter);
 
 // 404처리 미들웨어
 app.use((req, res, next) => {

@@ -20,7 +20,7 @@
     * POST "/auth/regist" // 로컬 회원가입 처리
 --------------------------------------------------------------- 03/17
 * 게시글 목록
-    * GET "/board/${condition}" board.html // 컨디션에 따른 게시글 목록 (최신순, 댓글순, * 추천순, 조회순)
+    * GET "/board?querystring" board.html // 컨디션에 따른 게시글 목록 (최신순, 댓글순, * 추천순, 조회순)
 * 글쓰기
     * GET "/write" write.html // 게시글 작성
     * POST "/write" //게시글 작성 처리
