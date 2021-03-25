@@ -7,9 +7,11 @@ router.get('/', async (req, res, next) => {
     // 최신순 , 댓글순, 조회순, 추천순
     try{
         const query = req.query;
+        console.log(query);
         let posts;
-        if (query.comment) {
+        if (query.condition === 'comment') {
             // 댓글순
+            // GET "/board?condition=comment" 
             posts = await Post.findAll({
                 // 게시글 번호, 제목, 댓글개수, 조회수
                 attributes:[
@@ -21,18 +23,36 @@ router.get('/', async (req, res, next) => {
                 ],
                 include: {
                     model: Comment,
-                    attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'commentCount'],]
+                    attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'commentCount']]
                 },
                 // 댓글순 및 댓글 갯수가 같다면 내림차순
                 order: [[sequelize.literal('`Comments.commentCount`'), 'DESC'], ['createdAt', 'DESC']],
                 group: 'Post.id',
             });
-        }else if(query.recommend){
+        }else if(query.recommand){
             // 추천순
+            // GET "/board?condition=recommand" 
             console.log('recommend');
-        }else if(query.view){
+        }else if(query.condition === 'view'){
             // 조회순
-            console.log('view');
+            // GET "/board?condition=view" 
+            posts = await Post.findAll({
+                // 게시글 번호, 제목, 댓글개수, 조회수
+                attributes:[
+                    'id',
+                    'title',
+                    'view',
+                    'createdAt',
+                    'UserId',
+                ],
+                include: {
+                    model: Comment,
+                    attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'commentCount']]
+                },
+                // 조회순이 같다면 내림차순
+                order: [['view', 'DESC'], ['createdAt', 'DESC']],
+                group: 'Post.id',
+            });
         }else {
             // 최신순
             posts = await Post.findAll({
@@ -65,6 +85,12 @@ router.get('/', async (req, res, next) => {
 router.get('/:postId', async (req, res, next) => {
     try {
         const { postId } = req.params;
+        await Post.update({
+            view: sequelize.literal('view + 1'),
+        },{
+            where: {id: postId,},
+        }
+        );
         const post = await Post.findOne({
             attributes: [ 'id', 'title', 'content', 'view', 'createdAt', 'UserId'],
             where: { id: postId },
@@ -75,6 +101,70 @@ router.get('/:postId', async (req, res, next) => {
             order: [[Comment, 'createdAt', 'DESC']],
         });
         res.json({ post });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
+// PATCH "/board/${postID}" // 게시글 수정
+router.patch('/:postId', async (req, res, next) => {
+    try {
+        // 게시글 번호
+        const { postId } = req.params;
+        // 게시글 내용
+        const { content, title } = req.body;
+        // 세션userid
+        const userId = req.user.id;
+        // 게시글 작성자
+        const PostUserId = await Post.findOne({
+            attributes: ['UserId'],
+            where: {id: postId},
+        });
+        if(userId === PostUserId.UserId){
+            await Post.update(
+                { 
+                    title,
+                    content,
+                },
+                { where: {
+                    id: postId,
+                }},
+            );
+            res.redirect(`/board/${req.params.postId}`)
+        }else{
+            res.send(`작성자와 일치하지 않습니다.`);
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
+// DELETE "/board/${postID}" // 게시글 삭제
+router.delete('/:postId', async (req, res, next) => {
+    try {
+        // 게시글 번호
+        const { postId } = req.params;
+        // 게시글 아이디
+        const { PostId } = req.body;
+        // 세션userid
+        const userId = req.user.id;
+        // 게시글 작성자
+        const PostUserId = await Post.findOne(
+            {attributes: ['UserId'],},
+            { where: {id: PostId}},
+        );
+        if (userId === PostUserId.UserId) {
+            await Comment.destroy(
+                { where: {
+                    id: postId,
+                }},
+            );
+            res.redirect("/board");
+        }else{
+            res.send(`작성자와 일치하지 않습니다.`);
+        }
     } catch (error) {
         console.error(error);
         next(error);
