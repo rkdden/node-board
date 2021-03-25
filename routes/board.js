@@ -59,6 +59,28 @@ router.get('/', async (req, res, next) => {
         next(error);
     }
 });
+// 게시글 조회
+// postId에 해당하는 게시글과 댓글 가져온 후
+// 댓글은 최신순으로
+router.get('/:postId', async (req, res, next) => {
+    try {
+        const { postId } = req.params;
+        const post = await Post.findOne({
+            attributes: [ 'id', 'title', 'content', 'view', 'createdAt', 'UserId'],
+            where: { id: postId },
+            include: {
+                model: Comment,
+                attributes: ['UserId', 'comment', 'createdAt'],
+            },
+            order: [[Comment, 'createdAt', 'DESC']],
+        });
+        res.json({ post });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
 // POST "/board/${postId}/commemt" // 댓글 등록
 router.post('/:postId/comment', async (req, res, next) => {
     try {

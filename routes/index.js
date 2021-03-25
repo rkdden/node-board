@@ -8,10 +8,6 @@ router.get('/', (req, res) => {
     res.send('메인페이지');
 });
 
-router.post('/login', (req, res) => {
-    
-});
-
 // 회원가입 페이지
 router.get('/regist', (req, res) => {
     res.send('회원가입 페이지');
