@@ -156,7 +156,7 @@ router.delete('/:postId', async (req, res, next) => {
             { where: {id: PostId}},
         );
         if (userId === PostUserId.UserId) {
-            await Comment.destroy(
+            await Post.destroy(
                 { where: {
                     id: postId,
                 }},
