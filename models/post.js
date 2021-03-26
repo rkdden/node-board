@@ -21,7 +21,7 @@ module.exports = class Post extends Sequelize.Model {
             },
             view: {
                 type: Sequelize.INTEGER,
-                default: 0,
+                defaultValue: 0,
             }
         }, {
             sequelize,

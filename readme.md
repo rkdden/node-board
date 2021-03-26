@@ -2,7 +2,7 @@
 =============
 
 # REST API
-* 메인페이지
+* 메인페이지 **완료**
     * GET "/" index.html  // 로그인(메인) 페이지
     * 로그인
         * POST "/auth/login" // 로그인 처리
@@ -15,23 +15,25 @@
         * 깃허브
             * GET "/auth/github"  // 깃허브 로그인
             * GET "/auth/github/callback"  // 깃허브 로그인 콜백
-* 회원가입
+* 회원가입 **완료**
     * GET "/regist" regist.html // 회원가입 페이지
     * POST "/auth/regist" // 로컬 회원가입 처리
---------------------------------------------------------------- 03/17 완료
 * 게시글 목록
-    * GET "/board?querystring" board.html // 컨디션에 따른 게시글 목록 (최신순, 댓글순, * 추천순, 조회순) **최신순, 댓글순 완료**
+    * GET "/board?querystring" board.html // 컨디션에 따른 게시글 목록 (최신순, 댓글순, * 추천순, 조회순) **최신순, 댓글순, 조회순 완료**
     * 게시글 번호, 제목, 조회수, 생성날자 작성자
-* 글쓰기 **------- 완료**
+* 글쓰기 **완료**
     * GET "/write" write.html // 게시글 작성 페이지
     * POST "/write" //게시글 작성 처리 
-* 게시글 상세
+* 게시글 상세 **완료**
     * GET "/board/${postId}" // 게시글아이디 상세보기
     * PATCH "/board/${postId}" // 게시글 수정
     * DELETE "/board/${postId}" // 게시글 삭제
-* 게시글 댓글
-    * POST "/board/${postId}/commemt" // 댓글 등록
-    * PATCH "/board/${postId}/commemt/${commentId}" // 댓글 수정
+* 게시글 추천
+    * GET "/board/${postId}/recommand   // 게시글 추천
+* 게시글 댓글 **완료**
+    * POST "/board/${postId}/commemt" // 댓글 등록 
+    * PATCH "/board/${postId}/commemt // 댓글 수정
+    * DELETE "/board/${postId}/commemt // 댓글 삭제
 
 # 패키지
 <!-- 프레임워크 -->
