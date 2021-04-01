@@ -34,7 +34,7 @@
     * PATCH "/board/${postId}" // 게시글 수정
     * DELETE "/board/${postId}" // 게시글 삭제
 * 게시글 추천
-    * GET "/board/${postId}/recommand   // 게시글 추천
+    * POST "/board/${postId}/recommand   // 게시글 추천
 * 게시글 댓글 **완료**
     * POST "/board/${postId}/commemt" // 댓글 등록 
     * PATCH "/board/${postId}/commemt // 댓글 수정
