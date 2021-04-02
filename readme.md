@@ -35,6 +35,7 @@
     * DELETE "/board/${postId}" // 게시글 삭제
 * 게시글 추천
     * POST "/board/${postId}/recommand   // 게시글 추천
+    * DELECT "/board/${postId}/recommand // 게시글 추천 삭제
 * 게시글 댓글 **완료**
     * POST "/board/${postId}/commemt" // 댓글 등록 
     * PATCH "/board/${postId}/commemt // 댓글 수정

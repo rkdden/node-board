@@ -1,4 +1,5 @@
 const express = require('express');
+const hi = require('../models');
 const {User, Post, Comment, sequelize} = require('../models');
 const passport = require('passport');
 const router = express.Router();
@@ -7,7 +8,6 @@ router.get('/', async (req, res, next) => {
     // 최신순 , 댓글순, 조회순, 추천순
     try{
         const query = req.query;
-        console.log(query);
         let posts;
         if (query.condition === 'comment') {
             // 댓글순
@@ -29,27 +29,21 @@ router.get('/', async (req, res, next) => {
                 order: [[sequelize.literal('`Comments.commentCount`'), 'DESC'], ['createdAt', 'DESC']],
                 group: 'Post.id',
             });
-        }else if(query.recommand){
+        }else if(query.condition === 'recommand'){
             // 추천순
             // GET "/board?condition=recommand"
             // 진행중
 // -----------------------------------------------------------------------------
+// 이대로 보내주고 프론트에서 Recommander를 forEach로 count
             posts = await Post.findAll({
-                // 게시글 번호, 제목, 댓글개수, 조회수
-                attributes:[
-                    'id',
-                    'title',
-                    'view',
-                    'createdAt',
-                    'UserId',
-                ],
+                attributes: ['id'],
                 include: {
-                    model: Comment,
-                    attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'commentCount']]
+                    model: User,
+                    as: 'Recommander',
+                    attributes: ['id',]
+                    // attributes: [[sequelize.fn('Count')]]
+                    // attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'RecommanderCount']]
                 },
-                // 조회순이 같다면 내림차순
-                order: [['view', 'DESC'], ['createdAt', 'DESC']],
-                group: 'Post.id',
             });
 // -------------------------------------------------------------------------------
         }else if(query.condition === 'view'){
@@ -91,7 +85,12 @@ router.get('/', async (req, res, next) => {
                 group: 'Post.id'
             });
         }
-        res.json({ posts, });
+        // let obj = {};
+        // const RecommanderCount = posts.forEach((post) => {
+        //     obj.count(post.Recommander.length);
+        // });
+
+        res.json({ posts,});
     } catch (error) {
         console.log(error);
         next(error);
@@ -280,13 +279,24 @@ router.delete('/:postId/comment', async (req, res, next) => {
 });
 
 // POST "/board/${postId}/recommand   // 게시글 추천
-router.get('/:postId/recommand', async(req, res, next) => {
+router.post('/:postId/recommand', async(req, res, next) => {
     // 게시글 번호
     const { postId } = req.params;
     // 세션userid
     const userId = req.user.id;
     const post = await Post.findOne({ where: { id: postId } });
-    await post.addRecommanded(userId);
+    await post.addRecommander(userId);
+    res.redirect(`/board/${req.params.postId}`);
+});
+
+// DELETE "/board/${postId}/recommand   // 게시글 삭제
+router.delete('/:postId/recommand', async(req, res, next) => {
+    // 게시글 번호
+    const { postId } = req.params;
+    // 세션userid
+    const userId = req.user.id;
+    const post = await Post.findOne({ where: { id: postId } });
+    await post.removeRecommander(userId);
     res.redirect(`/board/${req.params.postId}`);
 });
 
