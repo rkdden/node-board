@@ -36,15 +36,37 @@ router.get('/', async (req, res, next) => {
 // -----------------------------------------------------------------------------
 // 이대로 보내주고 프론트에서 Recommander를 forEach로 count
             posts = await Post.findAll({
-                attributes: ['id'],
-                include: {
-                    model: User,
+                // 게시글 번호, 제목, 댓글개수, 조회수
+                attributes:[
+                    'id',
+                    'title',
+                    'view',
+                    'createdAt',
+                    'UserId',
+                ],
+                include: [{
+                    model:User,
                     as: 'Recommander',
-                    attributes: ['id',]
-                    // attributes: [[sequelize.fn('Count')]]
-                    // attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'RecommanderCount']]
+                    attributes: ['id']
                 },
+                    {
+                    model: Comment,
+                    attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'commentCount']]
+                }],
+                // 댓글순 및 댓글 갯수가 같다면 내림차순
+                order: [[sequelize.literal('`Comments.commentCount`'), 'DESC'], ['createdAt', 'DESC']],
+                group: 'Post.id',
             });
+            // const recommand = await Post.findAll({
+            //     attributes: ['id'],
+            //     include: {
+            //         model: User,
+            //         as: 'Recommander',
+            //         attributes: ['id',]
+            //         // attributes: [[sequelize.fn('Count')]]
+            //         // attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'RecommanderCount']]
+            //     },
+            // });
 // -------------------------------------------------------------------------------
         }else if(query.condition === 'view'){
             // 조회순
