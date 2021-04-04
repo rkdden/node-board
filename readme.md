@@ -33,7 +33,7 @@
     * GET "/board/${postId}" // 게시글아이디 상세보기
     * PATCH "/board/${postId}" // 게시글 수정
     * DELETE "/board/${postId}" // 게시글 삭제
-* 게시글 추천
+* 게시글 추천 **완료**
     * POST "/board/${postId}/recommand   // 게시글 추천
     * DELECT "/board/${postId}/recommand // 게시글 추천 삭제
 * 게시글 댓글 **완료**

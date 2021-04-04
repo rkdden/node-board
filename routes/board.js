@@ -306,7 +306,7 @@ router.post('/:postId/recommand', async(req, res, next) => {
     res.redirect(`/board/${req.params.postId}`);
 });
 
-// DELETE "/board/${postId}/recommand   // 게시글 삭제
+// DELETE "/board/${postId}/recommand   // 게시글 추천 삭제
 router.delete('/:postId/recommand', async(req, res, next) => {
     // 게시글 번호
     const { postId } = req.params;
