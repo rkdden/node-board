@@ -1,4 +1,5 @@
 const express = require('express');
+const hi = require('../models');
 const {User, Post, Comment, sequelize} = require('../models');
 const passport = require('passport');
 const router = express.Router();
@@ -7,11 +8,11 @@ router.get('/', async (req, res, next) => {
     // 최신순 , 댓글순, 조회순, 추천순
     try{
         const query = req.query;
-        console.log(query);
         let posts;
+        let recommands;
         if (query.condition === 'comment') {
             // 댓글순
-            // GET "/board?condition=comment" 
+            // GET "/board?condition=comment"
             posts = await Post.findAll({
                 // 게시글 번호, 제목, 댓글개수, 조회수
                 attributes:[
@@ -29,10 +30,29 @@ router.get('/', async (req, res, next) => {
                 order: [[sequelize.literal('`Comments.commentCount`'), 'DESC'], ['createdAt', 'DESC']],
                 group: 'Post.id',
             });
-        }else if(query.recommand){
+        }else if(query.condition === 'recommand'){
             // 추천순
-            // GET "/board?condition=recommand" 
-            console.log('recommend');
+            // GET "/board?condition=recommand"
+            // 진행중
+// -----------------------------------------------------------------------------
+            posts = await Post.findAll({
+                // 게시글 번호, 제목, 댓글개수, 조회수
+                attributes:[
+                    'id',
+                    'title',
+                    'view',
+                    'createdAt',
+                    'UserId',
+                ],
+                include: {
+                    model: Comment,
+                    attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'commentCount']]
+                },
+                // 댓글순 및 댓글 갯수가 같다면 내림차순
+                order: [[sequelize.literal('`Comments.commentCount`'), 'DESC'], ['createdAt', 'DESC']],
+                group: 'Post.id',
+            });
+            
         }else if(query.condition === 'view'){
             // 조회순
             // GET "/board?condition=view" 
@@ -72,7 +92,22 @@ router.get('/', async (req, res, next) => {
                 group: 'Post.id'
             });
         }
-        res.json({ posts, });
+        // 추천수
+        recommands = await Post.findAll({
+            attributes: [
+                'id',
+            ],
+            include: {
+                model: User,
+                as: 'Recommander',
+                attributes: [[sequelize.fn('COUNT', sequelize.col('PostId')), 'recommandCount']],
+                through: {
+                    attributes:[],
+                },
+            },
+            group: 'Post.id'
+        })
+        res.json({ posts, recommands});
     } catch (error) {
         console.log(error);
         next(error);
@@ -258,6 +293,28 @@ router.delete('/:postId/comment', async (req, res, next) => {
         console.error(error);
         next(error);
     }
+});
+
+// POST "/board/${postId}/recommand   // 게시글 추천
+router.post('/:postId/recommand', async(req, res, next) => {
+    // 게시글 번호
+    const { postId } = req.params;
+    // 세션userid
+    const userId = req.user.id;
+    const post = await Post.findOne({ where: { id: postId } });
+    await post.addRecommander(userId);
+    res.redirect(`/board/${req.params.postId}`);
+});
+
+// DELETE "/board/${postId}/recommand   // 게시글 추천 삭제
+router.delete('/:postId/recommand', async(req, res, next) => {
+    // 게시글 번호
+    const { postId } = req.params;
+    // 세션userid
+    const userId = req.user.id;
+    const post = await Post.findOne({ where: { id: postId } });
+    await post.removeRecommander(userId);
+    res.redirect(`/board/${req.params.postId}`);
 });
 
 module.exports = router;

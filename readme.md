@@ -1,5 +1,10 @@
 게시판 만들기
 =============
+# 주제
+* 소셜 로그인을 포함한 게시판
+    * 카카오, 페이스북, 깃허브
+* 최신순, 댓글순, 추천순, 조회순으로 게시글 조회
+    * 게시글 추천과 수정 삭제 및 댓글 구현
 
 # REST API
 * 메인페이지 **완료**
@@ -28,8 +33,9 @@
     * GET "/board/${postId}" // 게시글아이디 상세보기
     * PATCH "/board/${postId}" // 게시글 수정
     * DELETE "/board/${postId}" // 게시글 삭제
-* 게시글 추천
-    * GET "/board/${postId}/recommand   // 게시글 추천
+* 게시글 추천 **완료**
+    * POST "/board/${postId}/recommand   // 게시글 추천
+    * DELECT "/board/${postId}/recommand // 게시글 추천 삭제
 * 게시글 댓글 **완료**
     * POST "/board/${postId}/commemt" // 댓글 등록 
     * PATCH "/board/${postId}/commemt // 댓글 수정
