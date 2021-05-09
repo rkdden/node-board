@@ -5,8 +5,11 @@ const path = require('path');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const passport = require('passport');
+const cors = require('cors');
 
 dotenv.config();
+// cors 설정
+app.use(cors());
 // 라우터
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
