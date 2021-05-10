@@ -1,10 +1,15 @@
+import React from 'react';
+import AuthForm from './components/auth/AuthForm';
+import Header from './components/common/Header';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello React World!</h1>
-    </div>
+    <>
+      <Header></Header>
+      <AuthForm></AuthForm>
+    </>
   );
 }
 
 export default App;
+
