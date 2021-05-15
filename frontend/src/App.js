@@ -1,12 +1,13 @@
 import React from 'react';
-import AuthForm from './components/auth/AuthForm';
-import Header from './components/common/Header';
+import { Route, BrowserRouter } from 'react-router-dom';
+import MainPage from './pages/MainPage';
 
-function App() {
+const App = () => {
   return (
     <>
-      <Header></Header>
-      <AuthForm></AuthForm>
+      <BrowserRouter>
+          <Route component={MainPage} path="/" />
+      </BrowserRouter>
     </>
   );
 }
