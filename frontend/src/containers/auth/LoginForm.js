@@ -52,7 +52,6 @@ const Button = styled.button`
   margin-bottom: 1.2rem;
 `;
   
-
 /**
 * 폼 하단에 로그인 혹은 회원가입 링크를 보여줌
 */
@@ -60,7 +59,6 @@ const Footer = styled.div`
   margin-top: 2rem;
   text-align: right;
 `;
-
 
 const LoginForm = () => {
   return (
@@ -80,7 +78,7 @@ const LoginForm = () => {
       <Footer>
         <Button>로그인</Button>
         {/* 여기에 버튼 3개 */}
-        <Link to="/register">회원가입</Link>
+        <Link to="/register"><Button>회원가입</Button></Link>
       </Footer>
     </AuthFormBlock>
   );
