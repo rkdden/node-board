@@ -1,10 +1,16 @@
+import React from 'react';
+import { Route, BrowserRouter } from 'react-router-dom';
+import MainPage from './pages/MainPage';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1>Hello React World!</h1>
-    </div>
+    <>
+      <BrowserRouter>
+          <Route component={MainPage} path="/" />
+      </BrowserRouter>
+    </>
   );
 }
 
 export default App;
+
