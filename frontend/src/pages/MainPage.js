@@ -1,13 +1,20 @@
 import React from 'react';
+import MainContainer from "../components/common/MainContainer";
+import CenterContainer from "../components/common/CenterContainer";
 import AuthTemplate from '../components/auth/AuthTemplate';
-import LoginForm from '../containers/auth/LoginForm';
-const LoginPage = () => {
+import AuthForm from "../components/auth/AuthForm";
+
+const MainPage = () => {
     return (
-    <AuthTemplate>
-        <LoginForm />
-    </AuthTemplate>
+        <MainContainer>
+            <CenterContainer>
+                <AuthTemplate>
+                    <AuthForm/>
+                </AuthTemplate>
+            </CenterContainer>
+        </MainContainer>
     );
 };
 
 
-export default LoginPage;
+export default MainPage;

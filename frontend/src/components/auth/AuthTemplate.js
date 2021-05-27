@@ -24,16 +24,12 @@ const WhiteBox = styled.div`
 
 const AuthTemplate = ({ children }) => {
   return (
-    <MainContainer>
-      <CenterContainer>
         <WhiteBox>
         <div className="logo-area">
           <h2>Node Board</h2>
         </div>
         {children}
         </WhiteBox>
-      </CenterContainer>
-    </MainContainer>
   );
 };
 
