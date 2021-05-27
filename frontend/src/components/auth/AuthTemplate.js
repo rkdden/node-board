@@ -1,25 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import CenterContainer from '../common/CenterContainer';
+import MainContainer from '../common/MainContainer';
 /**
  * 회원가입 / 로그인 페이지의 레이아웃을 담당하는 컴포넌트입니다.
  */
 
-/* 화면 전체를 채움 */
-const AuthTemplateBlock = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background: gray;
-  /* flex로 내부 내용 중앙 정렬 */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-/* 흰색 박스 */
+/* 가운데 흰색 박스 */
 const WhiteBox = styled.div`
   .logo-area {
     display: block;
@@ -37,14 +24,16 @@ const WhiteBox = styled.div`
 
 const AuthTemplate = ({ children }) => {
   return (
-    <AuthTemplateBlock>
-      <WhiteBox>
+    <MainContainer>
+      <CenterContainer>
+        <WhiteBox>
         <div className="logo-area">
           <h2>Node Board</h2>
         </div>
         {children}
-      </WhiteBox>
-    </AuthTemplateBlock>
+        </WhiteBox>
+      </CenterContainer>
+    </MainContainer>
   );
 };
 
