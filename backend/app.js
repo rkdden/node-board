@@ -8,8 +8,7 @@ const passport = require('passport');
 const cors = require('cors');
 
 dotenv.config();
-// cors 설정
-app.use(cors());
+
 // 라우터
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
@@ -22,6 +21,10 @@ const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 
 const app = express();
+
+// cors 설정
+app.use(cors());
+
 // 패스포트 설정
 passportConfig();
 // 포트번호
